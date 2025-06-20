@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Carta con efecto abrir</title>
+<style>
+  body {
+    margin: 0; padding: 0;
+    background: #fde8f0;
+    font-family: 'Georgia', serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .message {
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    color: #c0392b;
+    text-align: center;
+  }
+
+  .card-container {
+    perspective: 1200px;
+    width: 320px;
+    height: 260px;
+    cursor: pointer;
+  }
+
+  .card {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Estado cerrado */
+  .card.closed {
+    transform: rotateY(0deg);
+  }
+
+  /* Estado abierto (gira en Y para "abrir") */
+  .card.open {
+    transform: rotateY(-130deg);
+  }
+
+  /* Frente de la carta */
+  .card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    backface-visibility: hidden;
+    box-sizing: border-box;
+    padding: 1.5rem 2rem;
+  }
+
+  .card-front {
+    background: #c0392b;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    user-select: none;
+  }
+
+  /* Parte trasera (contenido) */
+  .card-back {
+    background: white;
+    color: #333;
+    transform: rotateY(180deg);
+    overflow-y: auto;
+  }
+
+  .line {
+    font-size: 1.05rem;
+    margin: 0.6rem 0;
+    line-height: 1.5;
+  }
+
+  .line span {
+    font-weight: bold;
+    color: #c0392b;
+    margin-right: 0.3rem;
+    font-size: 1.2rem;
+  }
+
+  .note {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: #999;
+    margin-top: 1rem;
+    text-align: center;
+  }
+
+  /* Corazón flotante */
+  .heart-float {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 22px;
+    height: 22px;
+    background: #e74c3c;
+    transform: rotate(-45deg);
+    animation: float 1.2s infinite ease-in-out;
+    border-radius: 4px;
+  }
+  .heart-float::before,
+  .heart-float::after {
+    content: '';
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background: #e74c3c;
+    border-radius: 50%;
+  }
+  .heart-float::before { top: -11px; }
+  .heart-float::after { left: 11px; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-45deg); }
+    50% { transform: translateY(-10px) rotate(-45deg); }
+  }
+
+  @media (max-width: 480px) {
+    .card-container {
+      width: 90vw;
+      height: 60vw;
+      max-height: 360px;
+    }
+    .card-front {
+      font-size: 1.2rem;
+    }
+    .line {
+      font-size: 1rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="message">Haz click en la carta para abrir </div>
+
+  <div class="card-container" id="cardContainer">
+    <div class="card closed" id="card">
+      <div class="card-front"><3</div>
+      <div class="card-back">
+        <div class="line"><span>A</span> veces me pierdo en una mirada que ni sabe que me encuentra.</div>
+        <div class="line"><span>S</span>in saberlo, tu risa es lo más claro que he sentido en días grises.</div>
+        <div class="line"><span>H</span>ay momentos en que solo con pensarte, todo tiene más sentido.</div>
+        <div class="line"><span>L</span>a forma en que caminas por la vida deja huellas que no se borran.</div>
+        <div class="line"><span>E</span>n cada silencio contigo hay más paz que en mil palabras vacías.</div>
+        <div class="line"><span>Y</span> si esto llega a ti, deseo que sepas que me haces bien… sin darte cuenta.</div>
+        <div class="heart-float"></div>
+        <div class="note">Haz click para cerrar la carta</div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const card = document.getElementById('card');
+  card.parentElement.addEventListener('click', () => {
+    card.classList.toggle('open');
+    card.classList.toggle('closed');
+  });
+</script>
+
+</body>
+</html>
